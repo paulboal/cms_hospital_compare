@@ -1,0 +1,20 @@
+DROP TABLE IF EXISTS asc_quality_facility;
+CREATE EXTERNAL TABLE asc_quality_facility (
+asc_name STRING,
+provider_id STRING,
+npi STRING,
+city STRING,
+state STRING,
+zip_code STRING,
+asc6_sschecklist STRING,
+asc_7_volume STRING,
+asc_7_gastrointestinal STRING,
+asc_7_eye STRING,
+asc_7_nervous_system STRING,
+asc_7_musculoskeletal STRING,
+asc_7_skin STRING,
+asc_7_genitourinary STRING,
+asc7_footnote STRING,
+asc_6_7_encounter_start_date STRING,
+asc_6_7_encounter_end_date STRING,
+junk string) ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.OpenCSVSerde' STORED AS TEXTFILE LOCATION "/tmp/cms_hospital_compare/current/asc_quality_facility" TBLPROPERTIES ("skip.header.line.count"="1"); 
