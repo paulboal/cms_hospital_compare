@@ -12,4 +12,8 @@ sudo -u zeppelin -- sh -c "cd /opt/incubator-zeppelin/notebook; wget -qO- https:
 
 Restart Zeppelin using Ambari
 
+# Running the notebook
+
 Go to the Zeppelin URL at http://sandbox.hortonworks.com:9995
+
+Step through each paragraph in the notebook and run (>) to see the results.
