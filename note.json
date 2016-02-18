@@ -182,14 +182,14 @@
         "msg": "Deleted /user/zeppelin/cms_hospital_compare\n"
       },
       "dateCreated": "Feb 14, 2016 6:33:41 PM",
-      "dateStarted": "Feb 15, 2016 3:35:48 PM",
-      "dateFinished": "Feb 15, 2016 3:41:19 PM",
+      "dateStarted": "Feb 18, 2016 2:14:38 AM",
+      "dateFinished": "Feb 18, 2016 2:20:28 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "%pyspark\nimport os\nimport shutil\nimport io\nimport re\nimport csv\nimport string\n\nDATA\u003d\"/home/zeppelin/cms_hospital_compare\"\nBASE\u003d\"/user/zeppelin/cms_hospital_compare\"\n\ntry:\n    shutil.rmtree(DATA+\"/sql\")\nexcept:\n    print(DATA+\"/sql didn\u0027t exist\")\n    \nos.mkdir(DATA+\"/sql\")\n\nfor root, dirs, filenames in os.walk(DATA+\"/data\"):\n    for filename in filenames:\n        if re.search(\"\\.header$\",filename.lower()):\n            tablename\u003dre.sub(\"\\.header$\",\"\",re.sub(\"__*\",\"_\",re.sub(\"[ -]\",\"_\",filename))).lower()\n            #print (filename, tablename)\n            \n            drop\u003d\"\"\n            sql\u003d\"\"\n                \n            with open(DATA+\"/sql/\"+tablename+\".sql\",mode\u003d\"w\") as script:\n                drop\u003d\"DROP TABLE IF EXISTS \" + tablename\n                script.write(drop)\n            \n                sql\u003d\"CREATE EXTERNAL TABLE \" + tablename + \" (\\n\"\n                with open(DATA+\"/data/\"+filename,mode\u003d\"rb\") as file:\n                    csvreader\u003dcsv.reader(file, delimiter\u003d\u0027|\u0027)\n                    header\u003dcsvreader.next()\n                    #print(header)\n                    \n                    columns\u003d[]\n                    for field in header:\n                        column\u003dstring.strip(re.sub(\"__*\",\"_\",re.sub(\"junk\",\"pct\",re.sub(\"[ -/]\",\"_\",field.replace(\u0027\\xef\\xbb\\xbf\u0027,\u0027\u0027)))).lower(),\"_\").strip(\"_\")\n                        if (column.isdigit()):\n                            column\u003d\"column_\"+column\n                        if (column \u003d\u003d \"\"):\n                            column\u003d\"blank_name\"\n                        columns.append(column + \" STRING\")\n                        \n                    sql+\u003dstring.join(columns,\",\\n\")\n        \n                #sql+\u003d\"\\n) ROW FORMAT SERDE \u0027org.apache.hadoop.hive.serde2.OpenCSVSerde\u0027 WITH SERDEPROPERTIES ( \u0027separatorChar\u0027 \u003d \u0027\\|\u0027,   \u0027quoteChar\u0027     \u003d \u0027\\\"\u0027,   \u0027escapeChar\u0027    \u003d \u0027\\\\\u0027\u0027)   STORED AS TEXTFILE \\n\"\n                #sql+\u003d\"LOCATION \u0027\" + BASE+\"/current/\"+tablename +\"\u0027 TBLPROPERTIES (\u0027skip.header.line.count\u0027\u003d\u00271\u0027)\\n\"\n                sql+\u003d\"\\n) ROW FORMAT DELIMITED FIELDS TERMINATED BY \u0027\\|\u0027 \\n\"\n                sql+\u003d\"LOCATION \u0027\" + BASE+\"/current/\"+tablename +\"\u0027 TBLPROPERTIES (\u0027skip.header.line.count\u0027\u003d\u00271\u0027)\\n\"\n    \n                script.write(sql)\n                \n            sqlContext.sql(drop)\n            sqlContext.sql(sql)\n                ",
-      "dateUpdated": "Feb 15, 2016 6:23:24 PM",
+      "dateUpdated": "Feb 18, 2016 2:33:58 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -213,17 +213,17 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": ""
+        "msg": "/home/zeppelin/cms_hospital_compare/sql didn\u0027t exist\n"
       },
       "dateCreated": "Feb 14, 2016 8:21:25 PM",
-      "dateStarted": "Feb 15, 2016 6:23:24 PM",
-      "dateFinished": "Feb 15, 2016 6:23:33 PM",
+      "dateStarted": "Feb 18, 2016 2:33:58 AM",
+      "dateFinished": "Feb 18, 2016 2:34:14 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "%sql\ndescribe hcahps_hospital",
-      "dateUpdated": "Feb 15, 2016 6:25:31 PM",
+      "dateUpdated": "Feb 18, 2016 2:34:26 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -249,8 +249,8 @@
         "msg": "col_name\tdata_type\tcomment\nprovider_id\tstring\tnull\nhospital_name\tstring\tnull\naddress\tstring\tnull\ncity\tstring\tnull\nstate\tstring\tnull\nzip_code\tstring\tnull\ncounty_name\tstring\tnull\nphone_number\tstring\tnull\nhcahps_measure_id\tstring\tnull\nhcahps_question\tstring\tnull\nhcahps_answer_description\tstring\tnull\npatient_survey_star_rating\tstring\tnull\npatient_survey_star_rating_footnote\tstring\tnull\nhcahps_answer_percent\tstring\tnull\nhcahps_answer_percent_footnote\tstring\tnull\nhcahps_linear_mean_value\tstring\tnull\nnumber_of_completed_surveys\tstring\tnull\nnumber_of_completed_surveys_footnote\tstring\tnull\nsurvey_response_rate_percent\tstring\tnull\nsurvey_response_rate_percent_footnote\tstring\tnull\nmeasure_start_date\tstring\tnull\nmeasure_end_date\tstring\tnull\n"
       },
       "dateCreated": "Feb 14, 2016 9:18:16 PM",
-      "dateStarted": "Feb 15, 2016 6:25:31 PM",
-      "dateFinished": "Feb 15, 2016 6:25:34 PM",
+      "dateStarted": "Feb 18, 2016 2:34:26 AM",
+      "dateFinished": "Feb 18, 2016 2:34:28 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
