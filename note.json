@@ -57,8 +57,7 @@
       },
       "jobName": "paragraph_1455474760071_1016316847",
       "id": "20160214-183240_1063396792",
-      "result": {
-      },
+      "result": {},
       "dateCreated": "Feb 14, 2016 6:32:40 PM",
       "dateStarted": "Feb 17, 2016 10:47:19 PM",
       "dateFinished": "Feb 17, 2016 10:47:44 PM",
@@ -88,8 +87,7 @@
       },
       "jobName": "paragraph_1455488966985_772487710",
       "id": "20160214-222926_480261125",
-      "result": {
-      },
+      "result": {},
       "dateCreated": "Feb 14, 2016 10:29:26 PM",
       "dateStarted": "Feb 18, 2016 2:14:14 AM",
       "dateFinished": "Feb 18, 2016 2:14:22 AM",
@@ -170,8 +168,7 @@
       },
       "jobName": "paragraph_1455474821315_-1236095159",
       "id": "20160214-183341_1179820765",
-      "result": {
-      },
+      "result": {},
       "dateCreated": "Feb 14, 2016 6:33:41 PM",
       "dateStarted": "Feb 18, 2016 2:14:38 AM",
       "dateFinished": "Feb 18, 2016 2:20:28 AM",
@@ -201,8 +198,7 @@
       },
       "jobName": "paragraph_1455481285469_225769463",
       "id": "20160214-202125_2051205977",
-      "result": {
-      },
+      "result": {},
       "dateCreated": "Feb 14, 2016 8:21:25 PM",
       "dateStarted": "Feb 18, 2016 2:33:58 AM",
       "dateFinished": "Feb 18, 2016 2:34:14 AM",
@@ -210,8 +206,8 @@
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "%sql\ndescribe hcahps_hospital",
-      "dateUpdated": "Feb 18, 2016 2:34:26 AM",
+      "text": "%sql\ndescribe payment_and_value_of_care_hospital",
+      "dateUpdated": "Feb 18, 2016 2:50:09 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -223,7 +219,9 @@
           "groups": [],
           "scatter": {}
         },
-        "editorMode": "ace/mode/sql"
+        "editorMode": "ace/mode/sql",
+        "tableHide": true,
+        "editorHide": true
       },
       "settings": {
         "params": {},
@@ -232,11 +230,105 @@
       "jobName": "paragraph_1455484696986_1442205326",
       "id": "20160214-211816_1434833360",
       "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "col_name\tdata_type\tcomment\nprovider_id\tstring\tnull\nhospital_name\tstring\tnull\naddress\tstring\tnull\ncity\tstring\tnull\nstate\tstring\tnull\nzip_code\tstring\tnull\ncounty_name\tstring\tnull\nphone_number\tstring\tnull\npayment_measure_name\tstring\tnull\npayment_measure_id\tstring\tnull\npayment_category\tstring\tnull\ndenominator\tstring\tnull\npayment\tstring\tnull\nlower_estimate\tstring\tnull\nhigher_estimate\tstring\tnull\npayment_footnote\tstring\tnull\nvalue_of_care_display_name\tstring\tnull\nvalue_of_care_display_id\tstring\tnull\nvalue_of_care_category\tstring\tnull\nvalue_of_care_footnote\tstring\tnull\nmeasure_start_date\tstring\tnull\nmeasure_end_date\tstring\tnull\n"
       },
       "dateCreated": "Feb 14, 2016 9:18:16 PM",
-      "dateStarted": "Feb 18, 2016 2:34:26 AM",
-      "dateFinished": "Feb 18, 2016 2:34:28 AM",
-      "status": "READY",
+      "dateStarted": "Feb 18, 2016 2:23:51 PM",
+      "dateFinished": "Feb 18, 2016 2:23:52 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md\nThoughts on the chart below?\n\u003d\u003d\nIf you look at the general trend in this chart, it shows a loose correlation between higher average payments and lower average HCAHPS star rating.  It isn\u0027t conclusive in itself, but certainly warrants some deeper statistical analysis.",
+      "dateUpdated": "Feb 18, 2016 2:49:44 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1455806880510_1788981721",
+      "id": "20160218-144800_475507959",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch1\u003eThoughts on the chart below?\u003c/h1\u003e\n\u003cp\u003eIf you look at the general trend in this chart, it shows a loose correlation between higher average payments and lower average HCAHPS star rating.  It isn\u0027t conclusive in itself, but certainly warrants some deeper statistical analysis.\u003c/p\u003e\n"
+      },
+      "dateCreated": "Feb 18, 2016 2:48:00 PM",
+      "dateStarted": "Feb 18, 2016 2:49:39 PM",
+      "dateFinished": "Feb 18, 2016 2:49:41 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%sql\nselect\n  -- h.hospital_name, \n  h.state, avg(int(h.patient_survey_star_rating)) as avg_stars, avg(float(regexp_replace(p.payment,\u0027[\\$,]\u0027,\u0027\u0027))) as payment\nfrom\n  hcahps_hospital h full outer join\n  payment_and_value_of_care_hospital p on h.hospital_name \u003d p.hospital_name\n  -- and p.payment_measure_name \u003d \u0027Payment for pneumonia patients\u0027\nwhere\n  p.payment is not null and\n  p.payment not like \u0027Not%\u0027 and\n  h.patient_survey_star_rating not like \u0027Not%\u0027\ngroup by\n  -- h.hospital_name, \n  h.state",
+      "dateUpdated": "Feb 18, 2016 2:47:54 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "scatterChart",
+          "height": 294.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "state",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "avg_stars",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "payment",
+              "index": 2.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "avg_stars",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "editorMode": "ace/mode/sql",
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1455567069756_-25540024",
+      "id": "20160215-201109_864244811",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "state\tavg_stars\tpayment\nMS\t3.1006944444444446\t16174.0625\nMT\t3.3482142857142856\t15219.785714285714\nTN\t3.0812925170068026\t16275.30612244898\nNC\t3.233018867924528\t16352.437735849056\nND\t2.6608527131782944\t17204.906976744187\nNE\t3.6724422442244222\t16913.20792079208\nAK\t3.3194444444444446\t14483.583333333334\nNH\t3.4177489177489178\t16903.896103896102\nAL\t3.2820833333333335\t15969.485\nTX\t3.0967930711610485\t17325.870786516854\nNJ\t2.3890224358974357\t18451.903846153848\nNM\t2.635265700483092\t14714.27536231884\nAR\t2.988609112709832\t16059.122302158274\nNV\t2.1262254901960786\t18451.602941176472\nAZ\t2.737887596899225\t17460.331395348836\nHI\t3.1843434343434343\t16067.757575757576\nNY\t2.370314591700134\t16698.08032128514\nUT\t3.3743961352657004\t16131.59420289855\nOH\t3.294031311154599\t17005.608610567513\nOK\t3.0757168458781363\t15661.693548387097\nIA\t3.5881226053639845\t16043.132183908046\nID\t3.256666666666667\t15740.84\nOR\t3.113690476190476\t15577.814285714287\nVA\t3.104952830188679\t16623.495283018867\nVI\t2.1\t16054.2\nIL\t3.250151240169389\t16916.78947368421\nIN\t3.420657276995305\t16620.002816901408\nCA\t2.463917525773196\t17409.280641466208\nPA\t2.8890522875816993\t17121.539215686276\nVT\t3.4044117647058822\t15567.382352941177\nCO\t3.4490131578947367\t16742.78947368421\nCT\t2.8862745098039215\t17944.929411764704\nWA\t3.021144278606965\t16436.10447761194\nWI\t3.797065337763012\t16093.750830564784\nDC\t1.8958333333333333\t17499.5\nDE\t2.5373563218390807\t17275.44827586207\nWV\t3.013358778625954\t16394.351145038167\nWY\t3.404040404040404\t14711.969696969696\nKS\t3.428486997635934\t16106.354609929078\nKY\t3.265710382513661\t16285.098360655738\nRI\t3.058333333333333\t17630.0\nLA\t3.400656814449918\t16589.16748768473\nSC\t3.2841435185185186\t16240.256944444445\nSD\t3.6197916666666665\t15952.25\nFL\t2.53388786198398\t17829.907578558224\nMA\t3.0984848484848486\t17477.58585858586\nMD\t2.5536616161616164\t16841.909090909092\nME\t3.674778761061947\t16457.41592920354\nMI\t3.2120726495726495\t16386.8141025641\nMN\t3.5921052631578947\t15700.061403508771\nMO\t3.2559055118110236\t16681.44881889764\nGA\t3.052805280528053\t16142.864686468647\n"
+      },
+      "dateCreated": "Feb 15, 2016 8:11:09 PM",
+      "dateStarted": "Feb 18, 2016 2:44:30 PM",
+      "dateFinished": "Feb 18, 2016 2:44:51 PM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
@@ -284,8 +376,7 @@
       },
       "jobName": "paragraph_1455485488801_980468896",
       "id": "20160214-213128_1974473342",
-      "result": {
-      },
+      "result": {},
       "dateCreated": "Feb 14, 2016 9:31:28 PM",
       "dateStarted": "Feb 15, 2016 6:25:41 PM",
       "dateFinished": "Feb 15, 2016 6:25:53 PM",
@@ -353,53 +444,10 @@
       },
       "jobName": "paragraph_1455550313401_1914368782",
       "id": "20160215-153153_8923186",
-      "result": {
-      },
+      "result": {},
       "dateCreated": "Feb 15, 2016 3:31:53 PM",
       "dateStarted": "Feb 15, 2016 8:18:02 PM",
       "dateFinished": "Feb 15, 2016 8:18:10 PM",
-      "status": "READY",
-      "progressUpdateIntervalMs": 500
-    },
-    {
-      "text": "%sql\nselect distinct hospital_name from hcahps_hospital\nwhere state \u003d \u0027MO\u0027",
-      "dateUpdated": "Feb 15, 2016 8:14:36 PM",
-      "config": {
-        "colWidth": 12.0,
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [
-            {
-              "name": "hospital_name",
-              "index": 0.0,
-              "aggr": "sum"
-            }
-          ],
-          "values": [],
-          "groups": [],
-          "scatter": {
-            "xAxis": {
-              "name": "hospital_name",
-              "index": 0.0,
-              "aggr": "sum"
-            }
-          }
-        },
-        "editorMode": "ace/mode/sql"
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "jobName": "paragraph_1455552697310_-1039350169",
-      "id": "20160215-161137_1765036803",
-      "result": {
-      },
-      "dateCreated": "Feb 15, 2016 4:11:37 PM",
-      "dateStarted": "Feb 15, 2016 8:14:36 PM",
-      "dateFinished": "Feb 15, 2016 8:14:40 PM",
       "status": "READY",
       "progressUpdateIntervalMs": 500
     },
@@ -409,9 +457,9 @@
         "params": {},
         "forms": {}
       },
-      "jobName": "paragraph_1455567069756_-25540024",
-      "id": "20160215-201109_864244811",
-      "dateCreated": "Feb 15, 2016 8:11:09 PM",
+      "jobName": "paragraph_1455805521686_-1900734516",
+      "id": "20160218-142521_1011503161",
+      "dateCreated": "Feb 18, 2016 2:25:21 PM",
       "status": "READY",
       "progressUpdateIntervalMs": 500
     }
